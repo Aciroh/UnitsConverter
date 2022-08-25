@@ -9,10 +9,23 @@ struct ContentView: View {
     @State var currentType = "Temperature"
     
     var body: some View {
-        Section{
-            Picker("Conversion Type", selection: $currentType) {
-                ForEach(
+        NavigationView{
+            Form{
+                Section{
+                    Picker("Conversion Type", selection: $currentType) {
+                        ForEach(conversionType, id: \.self) {
+                            Text($0)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                } header: {
+                    Text("Select conversion type:")
+                }
+                Section {
+                    
+                }
             }
+            .navigationTitle("UnitsConverter")
         }
     }
 }
@@ -20,5 +33,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .previewInterfaceOrientation(.portrait)
     }
 }
