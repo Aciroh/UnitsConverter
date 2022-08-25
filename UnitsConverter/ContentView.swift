@@ -32,6 +32,71 @@ struct ContentView: View {
             }
         }
     }
+    func lengthConversion(input: Double, inType: String, outType: String) -> Double {
+        if outType == "meters" {
+            if inType == "meters" {
+                return input
+            } else if inType == "kilometers" {
+                return (input * 1000)
+            } else if inType == "feet" {
+                return (input * 0.3048)
+            } else if inType == "yards" {
+                return (input * 0.9144)
+            } else {
+                return (input * 1609.344)
+            }
+        } else if outType == "kilometers" {
+            if inType == "meters" {
+                return (input / 1000)
+            } else if inType == "kilometers" {
+                return input
+            } else if inType == "feet" {
+                return ((input * 0.3048) / 1000)
+            } else if inType == "yards" {
+                return ((input * 0.9144) / 1000)
+            } else {
+                return (input * 1.609344)
+            }
+        } else if outType == "feet" {
+            if inType == "meters" {
+                return (input * 3.2808399)
+            } else if inType == "kilometers" {
+                return ((input * 3280.8399))
+            } else if inType == "feet" {
+                return input
+            } else if inType == "yards" {
+                return (input * 3)
+            } else {
+                return (input * 5280)
+            }
+            
+        } else if outType == "yards" {
+            if inType == "meters" {
+                return (input * 1.0936133)
+            } else if inType == "kilometers" {
+                return ((input * 1093.6133))
+            } else if inType == "feet" {
+                return (input / 3)
+            } else if inType == "yards" {
+                return input
+            } else {
+                return (input * 1760)
+            }
+        } else {
+            if inType == "meters" {
+                return (input * 0.000621371192)
+            } else if inType == "kilometers" {
+                return ((input * 0.621371192))
+            } else if inType == "feet" {
+                return (input * 0.000189393939)
+            } else if inType == "yards" {
+                return (input * 0.000568181818)
+            } else {
+                return input
+            }
+        }
+        
+    }
     
     let conversionType = ["Temperature", "Length", "Time", "Volume"]
     @State var currentType = "Temperature"
@@ -45,6 +110,8 @@ struct ContentView: View {
     var output: Double {
         if currentType == "Temperature" {
             return temperatureConversion(input: input, inType: currentInputType, outType: currentOutputType)
+        } else if currentType == "Length" {
+            return lengthConversion(input: input, inType: currentInputType, outType: currentOutputType)
         }
         return 0.0
     }
