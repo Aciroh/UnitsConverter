@@ -95,7 +95,157 @@ struct ContentView: View {
                 return input
             }
         }
-        
+    }
+    func timeConversion(input: Double, inType: String, outType: String) -> Double {
+        //seconds, minutes, hours, days
+        switch outType {
+        case "seconds": do {
+            switch inType {
+            case "seconds":
+                return input
+            case "minutes":
+                return input * 60
+            case "hours":
+                return input * 3600
+            case "days":
+                return input * 86400
+            default:
+                return 0.0
+            }
+        }
+        case "minutes": do {
+            switch inType {
+            case "seconds":
+                return input / 60
+            case "minutes":
+                return input
+            case "hours":
+                return input * 60
+            case "days":
+                return input * 1440
+            default:
+                return 0.0
+            }
+        }
+        case "hours": do {
+            switch inType {
+            case "seconds":
+                return input / 3600
+            case "minutes":
+                return input / 60
+            case "hours":
+                return input
+            case "days":
+                return input * 24
+            default:
+                return 0.0
+            }
+        }
+        case "days": do {
+            switch inType {
+            case "seconds":
+                return input / 86400
+            case "minutes":
+                return input / 1440
+            case "hours":
+                return input / 24
+            case "days":
+                return input
+            default:
+                return 0.0
+            }
+        }
+        default:
+            return 0.0
+        }
+    }
+    func volumeConversion(input: Double, inType: String, outType: String) -> Double {
+        //mililiters, liters, cups, pints, gallons
+        switch outType {
+        case "mililiters": do {
+            switch inType{
+            case "mililiters":
+                return input
+            case "liters":
+                return input * 1000
+            case "cups":
+                return input * 236.6
+            case "pints":
+                return input * 473.176473
+            case "gallons":
+                return input * 3785.411784
+            default:
+                return 0.0
+            }
+            
+        }
+        case "liters": do {
+            switch inType{
+            case "mililiters":
+                return input * 0.001
+            case "liters":
+                return input
+            case "cups":
+                return input * 0.2366
+            case "pints":
+                return input * 0.473176473
+            case "gallons":
+                return input * 3.785411784
+            default:
+                return 0.0
+            }
+        }
+        case "cups": do {
+            switch inType{
+            case "mililiters":
+                return input * 0.00422675284
+            case "liters":
+                return input * 4.22675284
+            case "cups":
+                return input
+            case "pints":
+                return input * 2
+            case "gallons":
+                return input * 16
+            default:
+                return 0.0
+            }
+        }
+        case "pints": do {
+            switch inType{
+            case "mililiters":
+                return input *  0.00211337642
+            case "liters":
+                return input * 2.11337642
+            case "cups":
+                return input * 0.5
+            case "pints":
+                return input
+            case "gallons":
+                return input * 8
+            default:
+                return 0.0
+            }
+        }
+        case "gallons": do {
+            switch inType{
+            case "mililiters":
+                return input * 0.000264172052
+            case "liters":
+                return input * 0.264172052
+            case "cups":
+                return input * 0.0625
+            case "pints":
+                return input * 0.125
+            case "gallons":
+                return input
+            default:
+                return 0.0
+            }
+        }
+        default:
+            return 0.0
+        }
     }
     
     let conversionType = ["Temperature", "Length", "Time", "Volume"]
@@ -109,11 +259,22 @@ struct ContentView: View {
     @State var input = 0.0
     var output: Double {
         if currentType == "Temperature" {
-            return temperatureConversion(input: input, inType: currentInputType, outType: currentOutputType)
+            return temperatureConversion(input: input,
+                                         inType: currentInputType,
+                                         outType: currentOutputType)
         } else if currentType == "Length" {
-            return lengthConversion(input: input, inType: currentInputType, outType: currentOutputType)
+            return lengthConversion(input: input,
+                                    inType: currentInputType,
+                                    outType: currentOutputType)
+        } else if currentType == "Time" {
+            return timeConversion(input: input,
+                                  inType: currentInputType,
+                                  outType: currentOutputType)
+        } else {
+            return volumeConversion(input: input,
+                                    inType: currentInputType,
+                                    outType: currentOutputType)
         }
-        return 0.0
     }
     let format = FloatingPointFormatStyle<Double>.number
     var body: some View {
@@ -156,6 +317,7 @@ struct ContentView: View {
                             Text("None")
                         }
                     }
+                    .pickerStyle(.segmented)
                     TextField("Input", value: $input, format: format)
                 } header: {
                     Text("Input type:")
@@ -187,6 +349,7 @@ struct ContentView: View {
                             Text("None")
                         }
                     }
+                    .pickerStyle(.segmented)
                     Text(output, format: format)
                 } header: {
                     Text("Output type:")
