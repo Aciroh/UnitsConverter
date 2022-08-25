@@ -1,16 +1,19 @@
-//
-//  ContentView.swift
-//  UnitsConverter
-//
-//  Created by Horatiu on 25.08.2022.
-//
-
 import SwiftUI
 
+//Must have 4 views
+//One for each of the following:
+//Temperature, Length, Time, Volume
 struct ContentView: View {
+    
+    let conversionType = ["Temperature", "Length", "Time", "Volume"]
+    @State var currentType = "Temperature"
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        Section{
+            Picker("Conversion Type", selection: $currentType) {
+                ForEach(
+            }
+        }
     }
 }
 
